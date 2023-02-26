@@ -30,7 +30,8 @@ stages:
     strategy:
       runOnce:
         deploy:
-          parallel: 1 # Add this line to disable parallel jobs
+          parralel : 1
+          
           steps:
 
           - task: UsePythonVersion@0
