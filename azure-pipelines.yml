@@ -1,26 +1,18 @@
-# Python to Linux Web App on Azure
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Pipeline'
-    appType: 'webApp'
-    WebAppName: 'Ci_Cd pipeline'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-# Build your Python project and deploy it to Azure as a Linux Web App.
-# Change python version to one thats appropriate for your application.
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
-trigger:
-- main
-
 variables:
   # Azure Resource Manager connection created during pipeline creation
   azureServiceConnectionId: 'aff12410-cd5f-4585-ae61-5beb40e01c39'
 
   # Web app name
-  webAppName: ''
+  webAppName: 'pipelinetuto'
 
-  # Agent VM image name
+# Agent VM image name
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure for Students(626ce1d1-8661-45c7-adf9-7c3118eb8395)'
+    appType: 'webAppLinux'
+    WebAppName: 'pipelinetuto'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
   vmImageName: 'ubuntu-latest'
 
   # Environment name
