@@ -1,4 +1,11 @@
 # Python to Linux Web App on Azure
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Pipeline'
+    appType: 'webApp'
+    WebAppName: 'Ci_Cd pipeline'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
 # Build your Python project and deploy it to Azure as a Linux Web App.
 # Change python version to one thats appropriate for your application.
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
