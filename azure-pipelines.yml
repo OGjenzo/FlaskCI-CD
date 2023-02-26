@@ -6,7 +6,7 @@ variables:
   webAppName: 'pipelinetuto'
 
 # Agent VM image name
-- task: AzureRmWebAppDeployment@4
+  task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure for Students(626ce1d1-8661-45c7-adf9-7c3118eb8395)'
