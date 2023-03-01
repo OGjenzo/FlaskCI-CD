@@ -30,7 +30,6 @@ stages:
     strategy:
       runOnce:
         deploy:
-          parralel : 1
           
           steps:
 
