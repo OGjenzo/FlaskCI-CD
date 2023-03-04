@@ -56,7 +56,7 @@ stages:
                 displayName: 'Deploy Azure Web App : {{ webAppName }}'
                 inputs:
                   azureSubscription: aff12410-cd5f-4585-ae61-5beb40e01c39
-                  appName: app
+                  appName: pipelinetuto
                   package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
                   deploymentMethod: zipDeploy
 
