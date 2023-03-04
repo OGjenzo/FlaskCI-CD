@@ -52,6 +52,19 @@ stages:
                   archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
                   replaceExistingArchive: true
                   verbose: # (no value); this input is optional
+                
+              - task: PublishBuildArtifacts@1
+                inputs:
+                  PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+                  ArtifactName: 'MyArtifact'
+                displayName: 'Publish Artifact'
+
+              - task: DownloadBuildArtifacts@0
+                inputs:
+                  artifactName: 'MyArtifact'
+                  downloadPath: '$(System.ArtifactsDirectory)/MyArtifact'
+                displayName: 'Download Artifact'
+                
               - task: AzureWebApp@1
                 displayName: 'Deploy Azure Web App : {{ webAppName }}'
                 inputs:
