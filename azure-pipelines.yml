@@ -67,11 +67,8 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : $(webAppName)'
             inputs:
-              azureSubscription: $(azureServiceConnectionId)
-              appName: $(webAppName)
-          - script: |
-              ls
-              
+              azureSubscription: aff12410-cd5f-4585-ae61-5beb40e01c39
+              appName: pipelinetuto
               package: '$(System.ArtifactsDirectory)/MyArtifact/Application$(Build.BuildId).zip'
               deploymentMethod: zipDeploy
               startUpCommand: 'gunicorn --bind=0.0.0.0 --workers=4 startup:app'
