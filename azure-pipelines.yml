@@ -70,7 +70,7 @@ stages:
                 inputs:
                   azureSubscription: aff12410-cd5f-4585-ae61-5beb40e01c39
                   appName: pipelinetuto
-                  package: $(Pipeline.Workspace)/MyArtifact/$(Build.BuildId).zip
+                  package: $$(System.ArtifactsDirectory)/MyArtifact/$(Build.BuildId).zip
                   deploymentMethod: zipDeploy
 
                   # The following parameter is specific to the Flask example code. You may
