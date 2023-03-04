@@ -44,19 +44,6 @@ stages:
                 workingDirectory: $(projectRoot)
                 displayName: "Install requirements"
 
-              - task: AzureWebApp@1
-                displayName: 'Deploy Azure Web App : {{ pipelinetuto }}'
-                inputs:
-                  azureSubscription: aff12410-cd5f-4585-ae61-5beb40e01c39
-                  appName: pipelinetuto
-                  package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-                  deploymentMethod: zipDeploy
-
-                  # The following parameter is specific to the Flask example code. You may
-                  # or may not need a startup command for your app.
-
-                  startUpCommand: 'gunicorn --bind=0.0.0.0 --workers=4 startup:app'
-
               - task: ArchiveFiles@2
                 inputs:
                   rootFolderOrFile: '$(Build.SourcesDirectory)'
@@ -65,6 +52,20 @@ stages:
                   archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
                   replaceExistingArchive: true
                   verbose: # (no value); this input is optional
+              - task: AzureWebApp@1
+                displayName: 'Deploy Azure Web App : {{ webAppName }}'
+                inputs:
+                  azureSubscription: aff12410-cd5f-4585-ae61-5beb40e01c39
+                  appName: app
+                  package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+                  deploymentMethod: zipDeploy
+
+                  # The following parameter is specific to the Flask example code. You may
+                  # or may not need a startup command for your app.
+
+                  startUpCommand: 'gunicorn --bind=0.0.0.0 --workers=4 startup:app'
+
+
 
               - publish: $(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip
                 displayName: 'Upload package'
