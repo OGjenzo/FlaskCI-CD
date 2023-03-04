@@ -21,7 +21,7 @@ variables:
   pythonVersion: '3.7'
 
 stages:
-- stage: Deploy
+- stage: build
   jobs:
   - deployment: DeploymentJob
     pool:
@@ -64,6 +64,18 @@ stages:
               downloadPath: '$(System.ArtifactsDirectory)/MyArtifact'
             displayName: 'Download Artifact'
                 
+
+stages:
+- stage: Deploy
+  jobs:
+  - deployment: DeploymentJob
+    pool:
+      vmImage: $(vmImageName)
+    environment: $(environmentName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : $(webAppName)'
             inputs:
