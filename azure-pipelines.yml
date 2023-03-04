@@ -65,7 +65,6 @@ stages:
             displayName: 'Download Artifact'
                 
 
-stages:
 - stage: Deploy
   jobs:
   - deployment: DeploymentJob
