@@ -73,8 +73,7 @@ stages:
             inputs:
               pathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: drop
-              publishLocation: '$(System.ArtifactsDirectory)/drop/'
-
+              publishLocation: '$(System.ArtifactsDirectory)/drop/Application$(Build.BuildId).zip'
 
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : $(webAppName)'
