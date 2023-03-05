@@ -15,7 +15,7 @@ variables:
   environmentName: 'app'
 
   # Project root folder. Point to the folder containing manage.py file.
-  projectRoot: /home
+  projectRoot: $(System.DefaultWorkingDirectory)
 
   # Python version: 3.7
   pythonVersion: '3.7'
@@ -49,19 +49,19 @@ stages:
         rootFolderOrFile: '$(projectRoot)'
         includeRootFolder: false
         archiveType: zip
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        archiveFile: $(System.DefaultWorkingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
     - task: PublishBuildArtifacts@1
       displayName: copy to deploy path
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        PathtoPublish: '$(System.DefaultWorkingDirectory)'
         ArtifactName: drop
-        publishLocation : '$(Build.ArtifactStagingDirectory)'
+        publishLocation : '$(System.DefaultWorkingDirectory)'
         
 
 
 
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+    - upload: $(System.DefaultWorkingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
       artifact: drop
 
@@ -84,10 +84,10 @@ stages:
             inputs:
               azureSubscription: aff12410-cd5f-4585-ae61-5beb40e01c39
               appName: pipelinetuto
-              package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+              package: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
               deploymentMethod: zipDeploy
               startUpCommand: 'gunicorn --bind=0.0.0.0 --workers=4 startup:app'
 
-          - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+          - publish: $(System.DefaultWorkingDirectory)/$(Build.BuildId).zip
             displayName: 'Upload package'
             artifact: drop
