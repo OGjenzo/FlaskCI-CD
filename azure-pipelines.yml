@@ -40,6 +40,7 @@ stages:
         python -m pip install --upgrade pip
         pip install setup
         pip install -r requirements.txt
+        mkdir test
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
     - task: ArchiveFiles@2
