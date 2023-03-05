@@ -78,4 +78,4 @@ stages:
 
           - publish: $(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip
             displayName: 'Upload package'
-            artifact: MyArtifact
+            artifact: drop
