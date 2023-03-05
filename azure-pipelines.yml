@@ -59,6 +59,7 @@ stages:
 
 - stage: Deploy
   jobs:
+  
   - deployment: DeploymentJob
     pool:
       vmImage: $(vmImageName)
@@ -67,6 +68,14 @@ stages:
       runOnce:
         deploy:
           steps:
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact'
+            inputs:
+              pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: drop
+              publishLocation: '$(System.ArtifactsDirectory)/drop/''
+
+
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : $(webAppName)'
             inputs:
