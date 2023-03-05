@@ -51,12 +51,6 @@ stages:
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact'
-      inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: drop
-        publishLocation: '$(System.ArtifactsDirectory)/drop/Application$(Build.BuildId).zip'
 
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
@@ -82,11 +76,10 @@ stages:
             inputs:
               azureSubscription: aff12410-cd5f-4585-ae61-5beb40e01c39
               appName: pipelinetuto
-              artifact: drop
-              package: '$(System.ArtifactsDirectory)/drop/Application$(Build.BuildId).zip'
+              package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
               deploymentMethod: zipDeploy
               startUpCommand: 'gunicorn --bind=0.0.0.0 --workers=4 startup:app'
 
-          - publish: $(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip
+          - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
             displayName: 'Upload package'
             artifact: drop
