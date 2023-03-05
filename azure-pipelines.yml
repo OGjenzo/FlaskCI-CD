@@ -50,6 +50,13 @@ stages:
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
+    - task: PublishBuildArtifacts@1
+      displayName: copy to deploy path
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: drop
+        publishLocation : '$(Build.ArtifactStagingDirectory)'
+        
 
 
 
