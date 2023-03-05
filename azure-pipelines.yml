@@ -20,50 +20,42 @@ variables:
   # Python version: 3.7
   pythonVersion: '3.7'
 
+
 stages:
-- stage: build
+- stage: Build
+  displayName: Build stage
   jobs:
-  - deployment: DeploymentJob
+  - job: BuildJob
     pool:
       vmImage: $(vmImageName)
-    environment: $(environmentName)
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: UsePythonVersion@0
-            inputs:
-              versionSpec: '$(pythonVersion)'
-            displayName: 'Use Python $(pythonVersion)'
-          - script: |
-              python -m venv antenv
-              source antenv/bin/activate
-              python -m pip install --upgrade pip
-              pip install setup
-              pip install --target="./.python_packages/lib/site-packages"  flask
-            workingDirectory: $(projectRoot)
-            displayName: "Install requirements"
-          - task: ArchiveFiles@2
-            inputs:
-              rootFolderOrFile: '$(Build.SourcesDirectory)'
-              includeRootFolder: false
-              archiveType: 'zip'
-              archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
-              replaceExistingArchive: true
-              verbose: false
-                
-          - task: PublishBuildArtifacts@1
-            inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-              ArtifactName: 'MyArtifact'
-            displayName: 'Publish Artifact'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(pythonVersion)'
+      displayName: 'Use Python $(pythonVersion)'
 
-          - task: DownloadBuildArtifacts@0
-            inputs:
-              artifactName: 'MyArtifact'
-              downloadPath: '$(System.ArtifactsDirectory)/MyArtifact'
-            displayName: 'Download Artifact'
-                
+    - script: |
+        python -m venv antenv
+        source antenv/bin/activate
+        python -m pip install --upgrade pip
+        pip install setup
+        pip install -r requirements.txt
+      workingDirectory: $(projectRoot)
+      displayName: "Install requirements"
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: '$(projectRoot)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
+
+    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      displayName: 'Upload package'
+      artifact: drop
+
+
 
 - stage: Deploy
   jobs:
