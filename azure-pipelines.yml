@@ -68,6 +68,19 @@ stages:
       displayName: 'Upload package'
       artifact: drop
 
+- stage: Test
+  displayName: Test stage
+  dependsOn: Build
+  jobs:
+  - job: TestJob
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - script: |
+        # Add your test commands here
+        echo "Running tests"
+      displayName: "Run tests"
+
 
 
 - stage: Deploy
