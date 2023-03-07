@@ -43,6 +43,8 @@ stages:
         
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
+
+
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
@@ -91,10 +93,10 @@ stages:
             inputs:
               azureSubscription: aff12410-cd5f-4585-ae61-5beb40e01c39
               appName: pipelinetuto
-              package: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
+              package: '$(System.ArtifactsDirectory)/$(Build.BuildId).zip'
               deploymentMethod: zipDeploy
               startUpCommand: 'gunicorn --bind=0.0.0.0 --workers=4 startup:app'
 
-          - publish: $(System.DefaultWorkingDirectory)/$(Build.BuildId).zip
+          - publish: $(System.ArtifactsDirectory)/$(Build.BuildId).zip
             displayName: 'Upload package'
             artifact: drop
